@@ -591,6 +591,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ca81e6b4777c89fd810c25a4be2b1bd93ea034fbe58e6a75216a34c6b82c539b"
 
 [[package]]
+name = "factory"
+version = "0.0.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
+name = "faucet"
+version = "0.0.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
 name = "ff"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -864,13 +878,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8ca58f447f06ed17d5fc4043ce1b10dd205e060fb3ce5b979b8ed8e59ff3f79"
 
 [[package]]
-name = "notes"
-version = "0.0.0"
-dependencies = [
- "soroban-sdk",
-]
-
-[[package]]
 name = "num-bigint"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -947,6 +954,13 @@ checksum = "f950b2377845cebe5cf8b5165cb3cc1a5e0fa5cfa3e1f7f55707d8fd82e0a7b7"
 dependencies = [
  "der",
  "spki",
+]
+
+[[package]]
+name = "pool"
+version = "0.0.0"
+dependencies = [
+ "soroban-sdk",
 ]
 
 [[package]]
@@ -1592,6 +1606,13 @@ checksum = "2e70e4c5a0e0a8a4823ad65dfe1a6930e4f4d756dcd9dd7939022b5e8c501215"
 dependencies = [
  "num-conv",
  "time-core",
+]
+
+[[package]]
+name = "token"
+version = "0.0.0"
+dependencies = [
+ "soroban-sdk",
 ]
 
 [[package]]

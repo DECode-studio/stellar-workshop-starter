@@ -1,0 +1,15 @@
+#![cfg(test)]
+use super::*;
+use soroban_sdk::{testutils::Address as _, Address, Env};
+
+#[test]
+fn test_initialize() {
+    let env = Env::default();
+    let contract_id = env.register_contract(None, Faucet);
+    let client = FaucetClient::new(&env, &contract_id);
+    
+    let admin = Address::generate(&env);
+    client.initialize(&admin);
+    
+    assert_eq!(client.admin(), admin);
+}
