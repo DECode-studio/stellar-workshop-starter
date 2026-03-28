@@ -1,118 +1,88 @@
-# Stellar Notes DApp
+# Stellar Workshop Starter
 
-**Stellar Notes DApp** - Blockchain-Based Decentralized Note-Taking System
+Penjelasan singkat tentang projek contoh workshop Stellar dengan fokus pada kontrak pintar dan frontend.
 
-## Project Description
+Penanggung Jawab: Nur Wahid Azhar – nur.wahid.azhar@gamil.com
 
-Stellar Notes DApp is a decentralized smart contract solution built on the Stellar blockchain using Soroban SDK. It provides a secure, immutable platform for managing personal notes directly on the blockchain. The contract ensures that your data is stored transparently and is only manageable through predefined smart contract functions, eliminating reliance on centralized database providers.
+Catatan: File README ini berisi struktur proyek, panduan instalasi, alur login (flowchart), serta praktik terbaik produksi.
 
-The system allows users to create, view, and delete notes, leveraging the efficiency and security of the Stellar network. Each note is uniquely identified and stored within the contract's instance storage, ensuring data persistence and reliability.
+## Struktur Proyek
+- kontrak: berisi kontrak pintar dan skrip terkait (deploy, test, dll.)
+- frontend: aplikasi frontend (UI) untuk berinteraksi dengan kontrak
+- README.md: dokumen ini
 
-## Project Vision
+Catatan: Sesuaikan konfigurasi alat (Hardhat/Foundry/Truffle, framework frontend, dll.) sesuai with projek aktual.
 
-Our vision is to revolutionize personal productivity in the digital age by:
+## Tujuan Proyek
+- Menyediakan contoh arsitektur full-stack Web3 dengan fokus pada integrasi kontrak pintar dan antarmuka pengguna.
+- Menjadi referensi praktik terbaik untuk proses deploy, testing, dan keamanan dasar.
 
-- **Decentralizing Data**: Moving note-taking from centralized servers to a global, distributed blockchain
-- **Ensuring Ownership**: Empowering users to have complete control and ownership over their digital thoughts and information
-- **Guaranteeing Immutability**: Providing a permanent, tamper-proof record of notes that cannot be altered or deleted by third parties
-- **Enhancing Privacy**: Leveraging blockchain security to protect personal information from unauthorized access
-- **Building Trustless Systems**: Creating a platform where data integrity is guaranteed by code, not by company promises
+## Prerequisites
+- Node.js (>= 16.x / 18.x disarankan)
+- npm atau pnpm/yarn
+- Alat pengembangan kontrak sesuai stack yang dipakai (contoh: Hardhat/Foundry) yang sudah dikonfigurasi di folder `contracts/`
+- Git untuk versioning
 
-We envision a future where digital information is truly personal and sovereign, empowering individuals with complete autonomy over their digital assets.
+## Instalasi
+1) Pasang dependensi frontend
+   - buka terminal: `cd frontend`
+   - jalankan: `npm install` atau `pnpm install`
 
-## Key Features
+2) Pasang dependensi kontrak (jika ada)
+   - buka terminal: `cd contracts`
+   - jalankan: `npm install` atau `pnpm install`
 
-### 1. **Simple Note Creation**
+## Menjalankan Lingkungan Pengembangan
+- Frontend (dev mode)
+  - buka terminal: `cd frontend`
+  - jalankan: `npm run dev` (atau skrip dev yang relevan pada proyek Anda)
+- Kontrak / backend (jika ada skrip lokal)
+  - buka terminal: `cd contracts`
+  - jalankan skrip yang relevan (mis. `npm run start` atau `npm run dev`) sesuai konfigurasi proyek.
 
-- Create notes with just one function call
-- Specify title and content for each note
-- Automated ID generation for unique identification
-- Persistent storage on the Stellar blockchain
+## Build & Deploy
+- Kontrak: jalankan build/deploy sesuai stack yang dipakai (contoh: hardhat compile & hardhat deploy) berdasarkan konfigurasi di `contracts/`.
+- Frontend: jalankan build produksi (contoh: `npm run build`), kemudian host static files-nya.
 
-### 2. **Efficient Data Retrieval**
+## Alur Login (Flowchart)
+Proses login mendukung dua jalur umum: Email/Password dan Wallet Stellar.
 
-- Fetch all stored notes in a single call
-- Structured data representation for easy frontend integration
-- Quick access to your entire note collection
-- Real-time synchronization with the blockchain state
+```mermaid
+flowchart TD
+  A[Pengunjung membuka aplikasi] --> B{Metode login}
+  B --> C1[Login Email/Password]
+  B --> C2[Hubungkan Wallet Stellar]
+  C1 --> D[Validasi kredensial]
+  D --> E[Otentikasi -> token/session]
+  C2 --> F[Otorisasi wallet]
+  F --> G[Verifikasi tanda tangan wallet]
+  G --> E
+  E --> H[Tampilan dashboard]
+  style A fill:#f0f4f8,stroke:#333
+```
 
-### 3. **Secure Deletion**
+> Catatan: Sesuaikan alur login dengan alur autentikasi spesifik yang Anda gunakan pada proyek ini. Jika menggunakan OAuth, 2FA, atau solusi wallet lainnya, tambahkan langkah-langkah terkait di diagram ini.
 
-- Remove specific notes using their unique IDs
-- Permanent removal from the contract storage
-- Clean and efficient storage management
-- Immediate update of the note list after deletion
+## Struktur Direktori (Rincian)
+- contracts/
+  - Kontrak pintar (Solidity/ bahasa kontrak lain) beserta skrip deploy/test
+- frontend/
+  - Aplikasi frontend (React/Vue/Next.js atau framework lain) beserta konfigurasi build
 
-### 4. **Transparency and Security**
+## Praktik Produksi (Ops & Keamanan)
+- Hindari memasukkan rahasia ke source code; gunakan variabel lingkungan (.env) dan manajemen rahasia yang aman.
+- Tetapkan perizinan akses yang tepat untuk kontrak dan API yang Anda gunakan.
+- Jalankan linting dan testing secara rutin; tambahkan CI jika memungkinkan.
+- Dokumentasikan dependensi eksternal (perizinan, versi, dll.).
 
-- View all note activities on the blockchain
-- Blockchain-based verification of all storage actions
-- Immutable records of note creation and deletion
-- Protected against unauthorized modifications
+## Kontribusi
+- Ikuti konvensi gaya kode proyek.
+- Jalankan tests sebelum merge.
+- Buat pull request dengan deskripsi singkat mengenai alasan perubahan (why) dan bukan sekadar apa yang diubah (what).
 
-### 5. **Stellar Network Integration**
+## Kontak
+- Nur Wahid Azhar — nur.wahid.azhar@gamil.com
+- Silakan hubungi melalui email untuk pertanyaan terkait proyek.
 
-- Leverages the high speed and low cost of Stellar
-- Built using the modern Soroban Smart Contract SDK
-- Scalable architecture for growing note collections
-- Interoperable with other Stellar-based services
-
-## Contract Details
-
-- Contract Address: CBLU4IUASQ4WUMOXBFLZRSBBLILGOH33GS4LUPKFBCCCMJCDQNMF7G2M
-  ![alt text](screenshot.png)
-
-## Future Scope
-
-### Short-Term Enhancements
-
-1. **Note Encryption**: Support for end-to-end encryption of note content for enhanced privacy
-2. **Category Management**: Add tags and categories to organize notes efficiently
-3. **Rich Text Support**: Extend support beyond plain text to include Markdown and formatted content
-4. **Search Functionality**: Implement advanced search filters for large note collections
-
-### Medium-Term Development
-
-5. **Collaborative Notes**: Implement multi-signature requirements for shared or collaborative note-taking
-   - Shared access for multiple addresses
-   - Permission-based editing and viewing
-   - Version history tracking
-6. **Notification System**: Off-chain bridge to alert users of new updates or shared notes
-7. **Asset Attachment**: Capability to attach digital assets or tokens to specific notes
-8. **Inter-Contract Integration**: Allow other smart contracts to interact with and store data in the notes contract
-
-### Long-Term Vision
-
-9. **Cross-Chain Synchronization**: Extend note storage to multiple blockchain networks
-10. **Decentralized UI Hosting**: Host the frontend on IPFS or similar decentralized platforms
-11. **AI-Powered Summarization**: Optional integration with AI to help users summarize their notes
-12. **Privacy Layers**: Implement zero-knowledge proofs for completely private note content
-13. **DAO Governance**: Community-driven protocol improvements and feature prioritization
-14. **Identity Management**: Integration with decentralized identity (DID) systems for user management
-
-### Enterprise Features
-
-15. **Corporate Documentation**: Adapt the system for secure corporate record-keeping
-16. **Immutable Logging**: Create time-locked logs for audit purposes
-17. **Automated Reporting**: Automatic note triggers for periodic reporting
-18. **Multi-Language Support**: Expand accessibility with internationalization
-
----
-
-## Technical Requirements
-
-- Soroban SDK
-- Rust programming language
-- Stellar blockchain network
-
-## Getting Started
-
-Deploy the smart contract to Stellar's Soroban network and interact with it using the three main functions:
-
-- `create_note()` - Create a new note with a title and content
-- `get_notes()` - Retrieve all stored notes from the contract
-- `delete_note()` - Remove a specific note by its ID
-
----
-
-**Stellar Notes DApp** - Securing Your Thoughts on the Blockchain
+## Lisensi
+- Lisensi proyek: to be determined. Sesuaikan dengan kebutuhan Anda.
