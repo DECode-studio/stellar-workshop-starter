@@ -4,7 +4,12 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 // Constants
 const NETWORK_PASSPHRASE = "Test SDF Network ; September 2015";
 const RPC_URL = "https://rpc-testnet.stellar.org";
-const CONTRACTS = { TOKEN: "", FAUCET: "", FACTORY: "", POOL: "" };
+const CONTRACTS = {
+  TOKEN: "CA7WYTCHISZL5PGCAYT2IAA5KMXUOEMY2Y4CKLEDIXP3JXREB4KF3JSU",
+  FAUCET: "CBD7HIHZJU6JS2UMTCFMT7XYRPX3YXUUIJPKVYWXAGDY73UESDEHRSO3",
+  FACTORY: "", // Deployment failed - WASM validation issue
+  POOL: "CA4QJ6NP642YLVEB2RQNTFNWT4FQILFFQ6U7ILWYKTVVAPZZ2OMN64P4",
+};
 const SLIPPAGE_TOLERANCE = 0.5;
 
 // Wallet Hook

@@ -1,17 +1,9 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, contracttype, symbol_short, Address, Env, Map, Symbol, Vec};
+use soroban_sdk::{contract, contractimpl, symbol_short, Address, Env, Map, Symbol, Vec};
 
 // Storage keys
 const KEY_ADMIN: Symbol = symbol_short!("ADMIN");
 const KEY_POOLS: Symbol = symbol_short!("POOLS");
-
-#[contracttype]
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub struct PoolInfo {
-    pub pool_address: Address,
-    pub token_a: Address,
-    pub token_b: Address,
-}
 
 #[contract]
 pub struct Factory;
