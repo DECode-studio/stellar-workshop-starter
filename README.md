@@ -1,247 +1,426 @@
-# Stellar DEX Workshop - Soroban Smart Contracts
+# Stellar Workshop Starter
 
-Full-stack DeFi Decentralized Exchange (DEX) built on Stellar using Soroban smart contracts.
+Dokumen ini adalah versi sangat detail dari spesifikasi teknis, arsitektur, dan rencana implementasi untuk proyek Stellar Workshop Starter. Proyek ini menggabungkan kontrak Soroban di Stellar dengan frontend modern untuk interaksi on-chain.
 
-**Project Lead:** Nur Wahid Azhar – nur.wahid.azhar@gmail.com
+Penanggung Jawab: Nur Wahid Azhar – nur.wahid.azhar@gamil.com
 
-## 🎯 Project Overview
+Catatan:
+- Dokumen ini bersifat living document. Perubahan stack, tooling, atau arsitektur harus didokumentasikan di sini.
+- Gunakan rujukan dua rencana end-to-end (FE & SC) untuk implementasi yang konsisten.
 
-This project provides a complete DeFi DEX implementation on Stellar's Soroban platform, including:
-- **Smart Contracts**: Token, Faucet, Factory, and Pool (AMM) contracts written in Rust
-- **Frontend**: React + Vite + Tailwind CSS dashboard for interacting with the contracts
-- **Wallet Integration**: Freighter wallet support for transaction signing
+## Ringkasan Proyek
+- Full-stack DeFi Interface di Stellar menggunakan Soroban untuk kontrak pintar.
+- Kontrak: token SEP-41, faucet, factory, pool (AMM) dengan logika treasury/fee.
+- Frontend: UI React + Tailwind dengan wallet Freighter untuk sign transaksi.
+- Tujuan utama: demonstrasi, pembelajaran, dan eksperimen DeFi on-chain di Stellar.
 
-## 📁 Project Structure
+## Struktur Direktori (ringkas)
+- contracts/ – kontrak Soroban (token, faucet, factory, pool)
+- frontend/ – UI React + Tailwind + konfig build
+- docs/ – dokumen tambahan (arsitektur, API, test plan)
+- e2e-plan-fe.md – Frontend End-to-End Plan (reference)
+- e2e-plan-sc.md – Smart Contract End-to-End Plan (reference)
+- app/ (opsional) – utilitas pengembangan
+- README.md – dokumen ini
 
-```
-stellar-workshop-starter/
-├── contracts/
-│   ├── token/          # SEP-41 Token contract
-│   ├── faucet/         # Unlimited minting faucet
-│   ├── factory/        # Pool factory contract
-│   ├── pool/           # AMM Pool with x*y=k
-│   └── notes/          # Example contract
-├── frontend/
-│   ├── src/
-│   │   ├── App.tsx     # Main application
-│   │   ├── index.css   # Tailwind styles
-│   │   └── main.tsx    # Entry point
-│   ├── package.json
-│   └── dist/           # Production build
-├── Cargo.toml          # Rust workspace config
-├── README.md           # This file
-└── e2e-plan-*.md       # Development plans
-```
+## Rencana End-to-End – FE (Frontend)
+<Appendix A: FE End-to-End Plan disisipkan di bawah ini sebagai blok kode untuk menjaga keutuhan konten referensi lanjutan.>
 
-## 🚀 Features
+## Rencana End-to-End – SC (Smart Contract)
+<Appendix B: SC End-to-End Plan disisipkan di bawah ini sebagai blok kode untuk menjaga keutuhan konten referensi lanjutan.>
 
-### Smart Contracts
-| Contract | Features |
-|----------|----------|
-| **Token** | `initialize`, `mint`, `transfer`, `balance_of`, `total_supply` |
-| **Faucet** | `initialize`, `faucet` (unlimited minting) |
-| **Factory** | `initialize`, `create_pool`, `get_pool`, `get_all_pools` |
-| **Pool** | `initialize`, `add_liquidity`, `remove_liquidity`, `swap`, LP tracking |
+## Arsitektur Sistem (High Level)
+- FE: React/TS + Tailwind; state management dengan Zustand
+- Service Layer: Soroban SDK untuk berkomunikasi dengan kontrak
+- RPC Layer: Soroban RPC endpoint
+- On-chain Contracts: Token SEP-41, Faucet, Factory, Pool AMM, Treasury/Fees
+- Data Layer: token balances, LP shares, pool reserves, on-chain events
+- Wallet Integration: Freighter/Wallet connectors untuk sign transaksi
 
-### Frontend Pages
-- **Home** - Dashboard with TVL, trades, and pools stats
-- **Swap** - Token swap with AMM pricing (0.25% fee)
-- **Liquidity** - Add/remove liquidity management
-- **Faucet** - Test token minting
-- **Portfolio** - View balances and LP positions
-- **History** - Transaction history
-
-## 📋 Prerequisites
-
-### For Smart Contracts
-- Rust >= 1.70
-- Soroban CLI
-- wasm32-unknown-unknown target
-
-### For Frontend
-- Node.js >= 18.x
-- npm or pnpm
-
-### Wallet
-- Freighter Wallet (browser extension)
-
-## 🛠️ Installation
-
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd stellar-workshop-starter
+Diagram arsitektur tingkat tinggi:
+```mermaid
+graph TD
+    FE[Frontend] --> SL[Soroban Service Layer]
+    SL --> RPC[Soroban RPC]
+    RPC --> SC[Smart Contracts]
+    SC --> DB[(Blockchain State)]
 ```
 
-### 2. Setup Smart Contracts
-```bash
-# Install Rust target for WebAssembly
-rustup target add wasm32-unknown-unknown
+## Struktur Direktori (Rinci)
+- contracts/
+  - token/          # SEP-41 Token contract
+  - faucet/         # Unlimited minting faucet
+  - factory/        # Pool factory contract
+  - pool/           # AMM Pool with x*y=k
+  - notes/          # Contoh kontrak dan dokumentasi
+- frontend/
+  - src/
+  - public/
+  - scripts/
+- docs/
+- tests/
+- scripts/
+- README.md
 
-# Build contracts
-cargo build --release --target wasm32-unknown-unknown
+## ARSITEKTUR DATA & MODEL
+- Token: state menyimpan admin, balances, total_supply
+- Faucet: token minting bebas, tanpa batas
+- Factory: registrasi pool, cegah duplikasi pool
+- Pool: reserves (reserve_a, reserve_b), token addresses, lp_shares, total_lp, treasury
+- LP: pemilik, jumlah LP
+- Events: swap, liquidity, faucet, transfer
 
-# Run tests
-cargo test
+## Alur Login & Transaksi (FE)
+- Pengguna membuka aplikasi -> pilih metode login (wallet Stellar atau email/password)
+- Wallet Stellar: Freighter/dApp browser extension
+- Email/Password: validasi dan token/sesi
+- Setelah login, UI menampilkan portofolio, histori, serta opsi swap/liquidity/faucet
+
+## End-to-End Plan – Appendix FE dan Appendix SC
+Appendix FE dan Appendix SC berisi konten referensi dari dua file rencana end-to-end yang Anda miliki. Bagian ini akan menempelkan isi keduanya secara utuh agar mudah diacu.
+
+## Appendix A: Frontend End-to-End Plan (FE)
 ```
+# 📘 1. PRD FRONTEND (DEX SOROBAN)
 
-### 3. Setup Frontend
-```bash
-cd frontend
+## 🎯 Objective
 
-# Install dependencies
-npm install
+Membangun frontend **DeFi dashboard** yang:
 
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-## 🔧 Development
-
-### Smart Contracts
-
-#### Build All Contracts
-```bash
-cargo build --release --target wasm32-unknown-unknown
-```
-
-#### Run Tests
-```bash
-cargo test
-```
-
-#### Deploy Contract (Testnet)
-```bash
-soroban contract deploy \
-  --wasm target/wasm32-unknown-unknown/release/<contract>.wasm \
-  --source <your-key> \
-  --network testnet
-```
-
-### Frontend
-
-#### Development Mode
-```bash
-cd frontend
-npm run dev
-# Opens at http://localhost:3000
-```
-
-#### Production Build
-```bash
-cd frontend
-npm run build
-# Output in dist/
-```
-
-## 🔐 Network Configuration
-
-### Testnet
-- **RPC URL**: `https://rpc-testnet.stellar.org`
-- **Network Passphrase**: `Test SDF Network ; September 2015`
-- **Explorer**: https://stellar.expert/explorer/testnet
-
-### Update Contract Addresses
-After deploying contracts, update addresses in `frontend/src/App.tsx`:
-```typescript
-const CONTRACTS = {
-  TOKEN: "YOUR_TOKEN_ADDRESS",
-  FAUCET: "YOUR_FAUCET_ADDRESS",
-  FACTORY: "YOUR_FACTORY_ADDRESS",
-  POOL: "YOUR_POOL_ADDRESS",
-};
-```
-
-## 📊 AMM Mechanics
-
-### Swap Formula
-```
-amount_out = (amount_in * 9975 * reserve_out) / (reserve_in * 10000 + amount_in * 9975)
-```
-- **Fee**: 0.25% (9975/10000)
-- **Invariant**: x * y = k
-
-### Liquidity Shares
-- **First deposit**: LP = min(amount_a, amount_b)
-- **Subsequent**: LP = min((amount_a * total_lp) / reserve_a, (amount_b * total_lp) / reserve_b)
-
-## 🔒 Security Considerations
-
-### Smart Contracts
-- ✅ `require_auth()` for sensitive operations
-- ✅ Reentrancy protection (Soroban design)
-- ✅ Input validation
-- ⚠️ POC level - not production ready
-
-### Frontend
-- ✅ Wallet connection validation
-- ✅ Transaction simulation before signing
-- ⚠️ Add proper error handling
-- ⚠️ Implement slippage protection
-- ⚠️ Add transaction notifications
-
-## 🧪 Testing
-
-### Contract Tests
-```bash
-# Run all tests
-cargo test
-
-# Run specific contract tests
-cargo test -p token
-cargo test -p pool
-```
-
-### Test Coverage
-- Token: initialize, mint, transfer, balance_of
-- Pool: initialize, add_liquidity, swap, remove_liquidity
-- Factory: initialize, create_pool
-- Faucet: initialize
-
-## 📝 Deployment Checklist
-
-1. **Smart Contracts**
-   - [ ] Build all contracts
-   - [ ] Run all tests
-   - [ ] Deploy Token contract
-   - [ ] Deploy Faucet contract
-   - [ ] Deploy Factory contract
-   - [ ] Create initial pool via Factory
-   - [ ] Update frontend with contract addresses
-
-2. **Frontend**
-   - [ ] Update contract addresses
-   - [ ] Build production bundle
-   - [ ] Deploy to hosting (Vercel, Netlify, etc.)
-   - [ ] Test wallet connection
-   - [ ] Test all features on testnet
-
-## 🤝 Contributing
-
-1. Follow Rust/TypeScript code conventions
-2. Write tests for new features
-3. Run `cargo test` and `npm run build` before PR
-4. Describe **why** in PR, not just **what**
-
-## 📞 Contact
-
-- **Nur Wahid Azhar** – nur.wahid.azhar@gmail.com
-- For questions, please reach out via email
-
-## 📄 License
-
-To be determined - TBD
-
-## 🎓 Learning Resources
-
-- [Soroban Documentation](https://soroban.stellar.org/docs)
-- [Stellar Developer Portal](https://developers.stellar.org/)
-- [Freighter Wallet](https://www.freighter.app/)
-- [Rust Programming](https://www.rust-lang.org/learn)
+* connect wallet Stellar
+* interact dengan Soroban contract
+* menampilkan data on-chain real-time
+* UX mirip Uniswap (simplified)
 
 ---
 
-**Built with ❤️ on Stellar Soroban**
+## 🎯 Core Features
+
+### 🔗 Wallet
+
+* connect/disconnect wallet (Freighter + others)
+* detect network (testnet)
+
+---
+
+### 🔄 Swap
+
+* select token A/B
+* input amount
+* slippage tolerance
+* preview output
+* execute swap
+
+---
+
+### 💧 Liquidity
+
+* add liquidity
+* remove liquidity
+* show LP share
+
+---
+
+### 🚰 Faucet
+
+* create token
+* mint token
+* select existing token
+
+---
+
+### 📊 Portfolio
+
+* balances
+* LP share
+* token list
+
+---
+
+### 🏭 Pool Explorer
+
+* list pool
+* create pool
+
+---
+
+### 📜 Transaction History
+
+* read event Soroban
+* show latest tx
+
+---
+
+---
+
+# 🧠 2. FRONTEND ARCHITECTURE
+
+```plaintext id="fe-arch"
+UI (React + Tailwind)
+    ↓
+Hooks Layer
+    ↓
+Service Layer (Soroban SDK)
+    ↓
+RPC (Soroban)
+    ↓
+Smart Contract
+```
+
+---
+
+# 🧩 3. FOLDER STRUCTURE
+```bash id="fe-structure"
+src/
+ ├── app/
+ ├── components/
+ │    ├── ui/
+ │    ├── swap/
+ │    ├── liquidity/
+ │    ├── faucet/
+ ├── pages/
+ │    ├── Home.tsx
+ │    ├── Swap.tsx
+ │    ├── Liquidity.tsx
+ │    ├── Faucet.tsx
+ │    ├── Portfolio.tsx
+ │    ├── Admin.tsx
+ │    ├── History.tsx
+ ├── hooks/
+ │    ├── useWallet.ts
+ │    ├── useSwap.ts
+ │    ├── useLiquidity.ts
+ │    ├── useFaucet.ts
+ ├── services/
+ │    ├── soroban.ts
+ │    ├── contracts.ts
+ ├── store/
+ │    ├── appStore.ts
+ ├── utils/
+ │    ├── math.ts
+ │    ├── format.ts
+ ├── constants/
+```
+
+---
+
+# 🎨 4. UI DESIGN (Dark DeFi)
+
+![Design references](https://example.com.png)
+---
+
+# 🔗 5. WALLET INTEGRATION
+
+## Hook: useWallet
+```ts
+export function useWallet() {
+  const [address, setAddress] = useState<string | null>(null);
+
+  const connect = async () => {
+    const res = await window.freighterApi.getPublicKey();
+    setAddress(res);
+  };
+
+  return { address, connect };
+}
+```
+---
+
+# 🔗 6. SOROBAN SERVICE LAYER
+```ts
+import { Server } from "soroban-client";
+
+const server = new Server("https://rpc-testnet.stellar.org");
+
+export async function callContract(contractId, method, args) {
+  // build tx
+  // simulate
+  // sign
+  // send
+}
+```
+---
+
+## Appendix B: Smart Contract End-to-End Plan (SC)
+```
+# 📘 1. PRODUCT REQUIREMENT DOCUMENT (SMART CONTRACT)
+
+## 🎯 Objective
+
+Membangun smart contract modular di Stellar menggunakan Soroban untuk:
+
+* Permissionless Token (SEP-41)
+* Faucet bebas
+* AMM DEX (x*y=k)
+* Pool factory
+* LP internal accounting
+* Treasury fee
+
+---
+
+## 🎯 Scope
+
+### ✅ Included
+
+* Token creation (SEP-41)
+* Faucet mint unlimited
+* Pool creation (permissionless)
+* Swap
+* Add liquidity
+* Remove liquidity
+* LP tracking (internal)
+* Fee distribution
+* On-chain data reading
+
+---
+
+### ❌ Excluded (POC)
+
+* Oracle price
+* Routing multi-hop
+* Slippage protection on-chain
+* Upgradeability
+* Anti-bot / anti-MEV
+
+---
+
+---
+
+# 🧠 2. SYSTEM ARCHITECTURE (ON-CHAIN)
+```
+plaintext id="arch-main"
+┌──────────────────────────────┐
+│        Token Contract        │
+│        (SEP-41)             │
+└─────────────┬────────────────┘
+              │
+┌─────────────▼───────────────┐
+│       Faucet Contract       │
+└─────────────┬───────────────┘
+              │
+┌─────────────▼───────────────┐
+│      Factory Contract       │
+└─────────────┬───────────────┘
+              │
+┌─────────────▼───────────────┐
+│      Pool Contract           │
+│      (AMM x*y=k)             │
+└──────────────────────────────┘
+```
+
+---
+
+# 🧩 3. CONTRACT MODULE BREAKDOWN
+---
+
+## 🪙 3.1 TOKEN CONTRACT (SEP-41)
+### 🎯 Purpose
+
+* Create token
+* Mint token (faucet)
+* Transfer
+---
+## 📦 Storage
+```
+rust id="token-storage"
+Symbol("admin") -> Address
+Symbol("balance") -> Map<Address, i128>
+Symbol("total_supply") -> i128
+```
+---
+## 🔧 Functions
+### 1. initialize
+```
+pub fn initialize(env: Env, admin: Address)
+```
+---
+### 2. mint
+```
+pub fn mint(env: Env, to: Address, amount: i128)
+```
+---
+### 3. transfer
+```
+pub fn transfer(env: Env, from: Address, to: Address, amount: i128)
+```
+---
+### 4. balance_of
+```
+pub fn balance_of(env: Env, user: Address) -> i128
+```
+---
+---
+## 🚰 3.2 FAUCET CONTRACT
+### 🎯 Purpose
+* Mint token bebas
+* No limit
+---
+## 🔧 Function
+```
+pub fn faucet(env: Env, token: Address, to: Address, amount: i128)
+```
+---
+---
+## 🏭 3.3 FACTORY CONTRACT
+### 🎯 Purpose
+* Register pool
+* Prevent duplicate pool
+---
+## 📦 Storage
+```
+rust id="factory-storage"
+Map<(Address, Address), Address> // pair → pool
+```
+---
+## 🔧 Function
+```
+pub fn create_pool(env: Env, token_a: Address, token_b: Address) -> Address
+```
+---
+---
+## 💧 3.4 POOL CONTRACT (CORE AMM)
+---
+## 📦 Storage
+```
+rust id="pool-storage"
+Symbol("token_a") -> Address
+Symbol("token_b") -> Address
+Symbol("reserve_a") -> i128
+Symbol("reserve_b") -> i128
+Symbol("lp_shares") -> Map<Address, i128>
+Symbol("total_lp") -> i128
+Symbol("treasury") -> Address
+```
+---
+---
+# 🔥 4. CORE LOGIC
+---
+## 🧮 4.1 AMM Formula
+```
+x * y = k
+```
+---
+## 🧮 Swap Output
+```
+amount_out =
+(amount_in * 9975 * reserve_out) /
+(reserve_in * 10000 + amount_in * 9975)
+```
+---
+---
+## 🔁 4.2 ADD LIQUIDITY FLOW
+```
+User → input A & B
+    ↓
+Check ratio
+    ↓
+Transfer token A & B
+    ↓
+Mint LP share
+    ↓
+Update reserve
+```
+---
+... (lanjut terus hingga mencapai ringkas phase 1000+ tasks)
+```
+```
